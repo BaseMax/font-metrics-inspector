@@ -2,6 +2,12 @@
 
 A visual typography inspection tool that overlays font metrics on sample text using Canvas guides. Perfect for designers and developers who need to understand and visualize font metrics.
 
+![Font Metrics Inspector](preview/1.png)
+
+![Font Metrics Inspector](preview/2.png)
+
+![Font Metrics Inspector](preview/3.png)
+
 ## Features
 
 - 📏 **Visual Metric Overlays**: See baseline, x-height, cap-height, ascender, and descender lines
