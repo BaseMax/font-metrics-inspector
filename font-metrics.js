@@ -1,6 +1,10 @@
 /**
+ *
+ * Seyyed Ali Mohammadiyeh (Max Base)
  * Font Metrics Inspector
+ * https://github.com/BaseMax/font-metrics-inspector
  * Calculates and visualizes typography metrics including baseline, x-height, cap-height, etc.
+ *
  */
 
 class FontMetricsInspector {
@@ -10,18 +14,15 @@ class FontMetricsInspector {
         this.textDisplay = document.getElementById('text-display');
         this.textContent = document.getElementById('text-content');
         
-        // Control elements
         this.sampleTextInput = document.getElementById('sample-text');
         this.fontFamilySelect = document.getElementById('font-family');
         this.fontSizeRange = document.getElementById('font-size');
         this.lineHeightRange = document.getElementById('line-height');
         this.showGuidesCheckbox = document.getElementById('show-guides');
         
-        // Value display elements
         this.fontSizeValue = document.getElementById('font-size-value');
         this.lineHeightValue = document.getElementById('line-height-value');
         
-        // Info elements
         this.infoFontSize = document.getElementById('info-font-size');
         this.infoLineHeight = document.getElementById('info-line-height');
         this.infoBaseline = document.getElementById('info-baseline');
@@ -41,7 +42,6 @@ class FontMetricsInspector {
         this.updateMetrics();
         this.resizeCanvas();
         
-        // Handle window resize
         window.addEventListener('resize', () => {
             this.resizeCanvas();
             this.drawMetrics();
@@ -81,7 +81,6 @@ class FontMetricsInspector {
         this.canvas.width = parentRect.width;
         this.canvas.height = parentRect.height;
         
-        // Set canvas position to match parent
         this.canvas.style.width = parentRect.width + 'px';
         this.canvas.style.height = parentRect.height + 'px';
     }
@@ -91,24 +90,19 @@ class FontMetricsInspector {
         const lineHeight = parseFloat(this.lineHeightRange.value);
         const fontFamily = this.fontFamilySelect.value;
         
-        // Apply styles to text
         this.textContent.style.fontSize = fontSize + 'px';
         this.textContent.style.lineHeight = lineHeight;
         this.textContent.style.fontFamily = fontFamily;
         
-        // Calculate metrics
         this.calculateFontMetrics(fontSize, lineHeight, fontFamily);
         
-        // Update info display
         this.updateInfoDisplay();
         
-        // Redraw canvas
         this.resizeCanvas();
         this.drawMetrics();
     }
     
     calculateFontMetrics(fontSize, lineHeight, fontFamily) {
-        // Create a temporary canvas for measuring
         const TEMP_CANVAS_SIZE = 500;
         const tempCanvas = document.createElement('canvas');
         const tempCtx = tempCanvas.getContext('2d');
@@ -118,30 +112,20 @@ class FontMetricsInspector {
         tempCtx.font = `${fontSize}px ${fontFamily}`;
         tempCtx.textBaseline = 'alphabetic';
         
-        // Measure baseline using a sample with various letter heights
-        // 'Hxgpqy' contains uppercase (H), lowercase (x), and descenders (g, p, y, q)
         const textMetrics = tempCtx.measureText('Hxgpqy');
         
-        // Get bounding box measurements
         const actualHeight = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
         
-        // Calculate line height in pixels
         const lineHeightPx = fontSize * lineHeight;
         
-        // Store metrics
         this.metrics = {
             fontSize: fontSize,
             lineHeight: lineHeightPx,
             fontFamily: fontFamily,
-            // Ascender (top of tallest letters like 'h', 'l', 'b')
             ascender: textMetrics.actualBoundingBoxAscent,
-            // Descender (bottom of letters like 'g', 'p', 'y')
             descender: textMetrics.actualBoundingBoxDescent,
-            // Cap height (estimated from 'H')
             capHeight: this.measureCapHeight(tempCtx, fontSize, fontFamily),
-            // X-height (estimated from 'x')
             xHeight: this.measureXHeight(tempCtx, fontSize, fontFamily),
-            // Baseline is at position 0 in our coordinate system
             baseline: 0
         };
     }
@@ -173,49 +157,36 @@ class FontMetricsInspector {
     }
     
     drawMetrics() {
-        // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
         if (!this.showGuides) {
             return;
         }
         
-        // Get text element position
         const textRect = this.textContent.getBoundingClientRect();
         const parentRect = this.canvas.parentElement.getBoundingClientRect();
         
-        // Calculate offsets
         const offsetX = textRect.left - parentRect.left;
         const offsetY = textRect.top - parentRect.top;
         
-        // Calculate baseline position
-        // The baseline is roughly at: top + ascender
         const baselineY = offsetY + this.metrics.ascender;
         
-        // Calculate line height boundaries
         const lineTop = offsetY;
         const lineBottom = offsetY + this.metrics.lineHeight;
         
-        // Draw line height boundaries (gray dashed)
         this.drawLine(offsetX, lineTop, textRect.width, '#95a5a6', 1, [5, 5]);
         this.drawLine(offsetX, lineBottom, textRect.width, '#95a5a6', 1, [5, 5]);
         
-        // Draw ascender line (purple)
         this.drawLine(offsetX, baselineY - this.metrics.ascender, textRect.width, '#9b59b6', 2);
         
-        // Draw cap height (green)
         this.drawLine(offsetX, baselineY - this.metrics.capHeight, textRect.width, '#27ae60', 2);
         
-        // Draw x-height (blue)
         this.drawLine(offsetX, baselineY - this.metrics.xHeight, textRect.width, '#3498db', 2);
         
-        // Draw baseline (red - most important)
         this.drawLine(offsetX, baselineY, textRect.width, '#e74c3c', 3);
         
-        // Draw descender line (orange)
         this.drawLine(offsetX, baselineY + this.metrics.descender, textRect.width, '#f39c12', 2);
         
-        // Draw labels
         this.drawLabel('Ascender', offsetX + textRect.width + 10, baselineY - this.metrics.ascender, '#9b59b6');
         this.drawLabel('Cap Height', offsetX + textRect.width + 10, baselineY - this.metrics.capHeight, '#27ae60');
         this.drawLabel('X-Height', offsetX + textRect.width + 10, baselineY - this.metrics.xHeight, '#3498db');
@@ -242,7 +213,6 @@ class FontMetricsInspector {
     }
 }
 
-// Initialize the inspector when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     new FontMetricsInspector();
 });
