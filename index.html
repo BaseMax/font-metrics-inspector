@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Metrics Inspector</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Font Metrics Inspector</h1>
+            <p>Inspect font size, line height, baseline visually with interactive overlays</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="sample-text">Sample Text:</label>
+                <input type="text" id="sample-text" value="Typography Metrics" placeholder="Enter sample text">
+            </div>
+
+            <div class="control-group">
+                <label for="font-family">Font Family:</label>
+                <select id="font-family">
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Helvetica">Helvetica</option>
+                    <option value="Comic Sans MS">Comic Sans MS</option>
+                    <option value="Impact">Impact</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="font-size">Font Size: <span id="font-size-value">48</span>px</label>
+                <input type="range" id="font-size" min="12" max="200" value="48">
+            </div>
+
+            <div class="control-group">
+                <label for="line-height">Line Height: <span id="line-height-value">1.5</span></label>
+                <input type="range" id="line-height" min="0.5" max="3" step="0.1" value="1.5">
+            </div>
+
+            <div class="control-group">
+                <label>
+                    <input type="checkbox" id="show-guides" checked>
+                    Show Metric Guides
+                </label>
+            </div>
+        </div>
+
+        <div class="inspector-area">
+            <div class="text-display" id="text-display">
+                <span id="text-content">Typography Metrics</span>
+            </div>
+            <canvas id="metrics-canvas"></canvas>
+        </div>
+
+        <div class="legend">
+            <h3>Metric Lines:</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #9b59b6;"></span>
+                    <span>Ascender Line</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #27ae60;"></span>
+                    <span>Cap Height</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #3498db;"></span>
+                    <span>X-Height (Median)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #e74c3c;"></span>
+                    <span>Baseline</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #f39c12;"></span>
+                    <span>Descender Line</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #95a5a6;"></span>
+                    <span>Line Height Bounds</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="metrics-info" id="metrics-info">
+            <h3>Calculated Metrics:</h3>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <strong>Font Size:</strong> <span id="info-font-size">48px</span>
+                </div>
+                <div class="metric-item">
+                    <strong>Line Height:</strong> <span id="info-line-height">72px</span>
+                </div>
+                <div class="metric-item">
+                    <strong>Baseline:</strong> <span id="info-baseline">-</span>
+                </div>
+                <div class="metric-item">
+                    <strong>X-Height:</strong> <span id="info-xheight">-</span>
+                </div>
+                <div class="metric-item">
+                    <strong>Cap Height:</strong> <span id="info-capheight">-</span>
+                </div>
+                <div class="metric-item">
+                    <strong>Ascender:</strong> <span id="info-ascender">-</span>
+                </div>
+                <div class="metric-item">
+                    <strong>Descender:</strong> <span id="info-descender">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="font-metrics.js"></script>
+</body>
+</html>
