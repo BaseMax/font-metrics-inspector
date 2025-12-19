@@ -109,15 +109,17 @@ class FontMetricsInspector {
     
     calculateFontMetrics(fontSize, lineHeight, fontFamily) {
         // Create a temporary canvas for measuring
+        const TEMP_CANVAS_SIZE = 500;
         const tempCanvas = document.createElement('canvas');
         const tempCtx = tempCanvas.getContext('2d');
-        tempCanvas.width = 500;
-        tempCanvas.height = 500;
+        tempCanvas.width = TEMP_CANVAS_SIZE;
+        tempCanvas.height = TEMP_CANVAS_SIZE;
         
         tempCtx.font = `${fontSize}px ${fontFamily}`;
         tempCtx.textBaseline = 'alphabetic';
         
-        // Measure baseline using the actual text position
+        // Measure baseline using a sample with various letter heights
+        // 'Hxgpqy' contains uppercase (H), lowercase (x), and descenders (g, p, y, q)
         const textMetrics = tempCtx.measureText('Hxgpqy');
         
         // Get bounding box measurements
